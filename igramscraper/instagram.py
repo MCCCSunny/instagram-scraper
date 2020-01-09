@@ -536,16 +536,16 @@ class Instagram:
             for media_array in nodes:
                 if index == count:
                     print ('1')
-                    return nodes, medias
+                    return medias
                 media = Media(media_array['node'])
                 if media.identifier in media_ids:
                     print ('2')
-                    return nodes, medias
+                    return medias
                 
                 if min_timestamp is not None \
                         and media.created_time < min_timestamp:
                     print ('3')
-                    return nodes, medias
+                    return medias
 
                 media_ids.append(media.identifier)
                 medias.append(media)
@@ -553,7 +553,7 @@ class Instagram:
 
             if len(nodes) == 0:
                 print ('4')
-                return nodes, medias
+                return medias
 
             max_id = \
                 arr['graphql']['hashtag']['edge_hashtag_to_media']['page_info'][
@@ -562,7 +562,7 @@ class Instagram:
                 arr['graphql']['hashtag']['edge_hashtag_to_media']['page_info'][
                     'has_next_page']
         print ('5')
-        return nodes, medias
+        return medias
 
     def get_medias_by_location_id(self, facebook_location_id, count=24,
                                   max_id=''):

@@ -8,6 +8,7 @@ Created on Wed Nov 20 13:27:42 2019
 从instagram中抓取和目标主题相关的数据
 理想的排序方式：
 先抓取一段时间内的数据，按照热度进行排序，取一段时间内前x条数据
+读取的urlToImage如果无法打开，说明当时的状态是个视频，可以直接跳过这条数据
 """
 
 from context import Instagram # pylint: disable=no-name-in-module
@@ -18,7 +19,7 @@ from time import sleep
 import threading
 # 连接数据库
 client = pymongo.MongoClient(host='localhost', port=27017) #连接本地mongodb数据库
-DATABASE = client["Instagram_test"]
+DATABASE = client["Instagram"]
 
 #登陆账号
 instagram = Instagram()
@@ -29,7 +30,15 @@ instagram.login()
 #startTime = time.mktime(time.strptime("2019/11/21 16:50:00","%Y/%m/%d %H:%M:%S"))
 #endTime = time.mktime(time.strptime("2019/11/21 16:55:00","%Y/%m/%d %H:%M:%S"))
 # 要获取的主题
-SUBJECTS = ["Cocacola","Chevron","Cocacola","Intel","UrbanOutfitters", "Dow Jones", "Nasdaq", "S&P500","KBC Bank", "Nestle"]
+SUBJECTS = ['adidas', 'airbus', 'airliquide', 'amadeusitgroup', 'abinbev', 'asml']
+
+USERS = ['adidas', 'airbus', 'allianz', 'amadeusitgroup', 'abinbev', 'asmlcompany', 'axa', 'bbva',
+		 'santander_es', 'basf_global', 'bayerofficial', 'bmwgroup', 'bnpparibas', 'daimler_ag',
+		 'deutscheboersegroup', 'deutschepost', 'deutschetelekom', 'enelgroup', 'engie',
+		 'eni', 'essilor', 'luxottica', 'fresenius.group', 'iberdrola', 'intesasanpaolo', 
+		 'kering_official', 'lindeplc', 'loreal', 'lvmh', 'nokia', 'philips', 'safran_group',
+		 'sanofi', 'sap', 'schneiderelectric', 'siemens', 'societegenerale', 'telefonica', 'total',
+		 'unilever', 'volkswagen', 'orange']
 #arr, medias = instagram.get_medias_by_tag(tag=SUBJECTS[0], count=100, max_id='', min_timestamp=startTime)
 
 #arr, medias = instagram.get_medias_by_tag(tag=SUBJECTS[0], count=100, max_id='', min_timestamp=startTime)
@@ -58,7 +67,7 @@ class MyThread(threading.Thread):
         
     def run(self):
         print('开始子进程{}'.format(self.name))
-        self.result = self.func(self.args[0], self.args[1])
+        self.result = self.func(*self.args)
         print("结果: {}".format(self.result))
         print('结束子进程{}'.format(self.name))    
     
@@ -67,12 +76,12 @@ if __name__ == "__main__":
     while True:
         now = datetime.datetime.now()
         startTime = now+datetime.timedelta(hours=-1)
-        startTime = time.mktime(time.strptime(str(startTime)[:19], "%Y-%m-%d %H:%M:%S"))
+        startTime1 = time.mktime(time.strptime(str(startTime)[:19], "%Y-%m-%d %H:%M:%S"))
         endTime = now
-        if now.minute == 15:
+        if now.minute == 10:
             threads = []
             for oneColl in SUBJECTS:
-                t = MyThread(insertData, (startTime, oneColl))
+                t = MyThread(insertData, (startTime1, oneColl))
                 threads.append(t)
                 
             for t in threads:
