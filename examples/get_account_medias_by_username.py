@@ -7,14 +7,13 @@ import pymongo
 
 client = pymongo.MongoClient(host='localhost', port=27017) #连接本地mongodb数据库
 DATABASE = client["Instagram_users"] 
-USERS = [ 'total','unilever', 'volkswagen', 'orange']
-#'adidas', 'airbus', 'allianz', 'amadeusitgroup', 'abinbev', 'asmlcompany', 'axa', 'bbva',
-#'santander_es', 'basf_global', 'bayerofficial', 'bmwgroup', 'bnpparibas', 'daimler_ag',
-#'deutscheboersegroup', 'deutschepost', 'deutschetelekom', 'enelgroup', 'engie',
-#'eni', 'essilor', 'luxottica', 'fresenius.group', 'iberdrola', 'intesasanpaolo', 
-#'kering_official', 'lindeplc', 'loreal','lvmh', 'nokia', 'philips', 'safran_group',
-#'sanofi', 'sap', 'schneiderelectric', 'siemens', 'societegenerale', 'telefonica', 
-
+USERS = ['adidas', 'airbus', 'allianz', 'amadeusitgroup', 'abinbev', 'asmlcompany', 'axa', 'bbva',
+         'santander_es', 'basf_global', 'bayerofficial', 'bmwgroup', 'bnpparibas', 'daimler_ag',
+         'deutscheboersegroup', 'deutschepost', 'deutschetelekom', 'enelgroup', 'engie',
+         'eni', 'essilor', 'luxottica', 'fresenius.group', 'iberdrola', 'intesasanpaolo', 
+         'kering_official', 'lindeplc', 'loreal','lvmh', 'nokia', 'philips', 'safran_group',
+         'sanofi', 'sap', 'schneiderelectric', 'siemens', 'societegenerale', 'telefonica', 
+         'total','unilever', 'volkswagen', 'orange']
 instagram = Instagram()
 
 for oneUser in USERS:
